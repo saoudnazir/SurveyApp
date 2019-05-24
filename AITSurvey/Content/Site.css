@@ -10,14 +10,36 @@ body {
     padding-left: 15px;
     padding-right: 15px;
 }
-
-/* Set widths on the form inputs since otherwise they're 100% wide */
-input,
-select,
-textarea {
-    max-width: 280px;
+.LoginForm{
+    width:50%;
+    height:auto;
+    margin:auto;
+}
+.LoginForm div{
+    margin-top:10px;
+}
+.row{
+    display:flex;
+    flex-direction:row;
+    justify-content:space-between;
+    width:100%;
+}
+.row,.column .btn{
+    width:45%;
+    height:50px;
+}
+.column{
+    display:flex;
+    flex-direction:column;
+    width:100%;
+    justify-content:center;
+    align-content:center;
+    align-items:center;
 }
 
+h1{
+    text-align:center;
+}
 
 /* Responsive: Portrait tablets and up */
 @media screen and (min-width: 768px) {
