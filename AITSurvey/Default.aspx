@@ -15,7 +15,7 @@
             <div class="column">
                 <div class="row">
                     <asp:Button ID="LoginBtn" class="btn btn-primary" runat="server" Text="Login" OnClick="LoginBtn_Click" />
-                    <asp:Button ID="RegisterBtn" class="btn btn-primary" runat="server" Text="Register" />
+                    <asp:Button ID="RegisterBtn" class="btn btn-primary" runat="server" Text="Register" OnClick="RegisterBtn_Click" />
                 </div>
                 <h2>OR</h2>
                 <asp:Button ID="GuestBtn" runat="server" class="btn btn-success" Text="Continue as Guest" />

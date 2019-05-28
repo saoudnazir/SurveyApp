@@ -18,7 +18,7 @@ namespace AITSurvey
        
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            
         }
 
         protected void LoginBtn_Click(object sender, EventArgs e)
@@ -39,6 +39,11 @@ namespace AITSurvey
                 System.Diagnostics.Debug.WriteLine(excep);
             }
 
+        }
+
+        protected void RegisterBtn_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("~/Pages/Register.aspx");
         }
     }
 }

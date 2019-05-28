@@ -64,8 +64,8 @@ C:\Users\mirza\Desktop\AITSurvey\AITSurvey\bin\Newtonsoft.Json.xml
 C:\Users\mirza\Desktop\AITSurvey\AITSurvey\bin\Antlr3.Runtime.pdb
 C:\Users\mirza\Desktop\AITSurvey\AITSurvey\bin\Microsoft.AspNet.FriendlyUrls.xml
 C:\Users\mirza\Desktop\AITSurvey\AITSurvey\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
-C:\Users\mirza\Desktop\AITSurvey\AITSurvey\obj\Debug\AITSurvey.csprojAssemblyReference.cache
 C:\Users\mirza\Desktop\AITSurvey\AITSurvey\obj\Debug\AITSurvey.csproj.CoreCompileInputs.cache
 C:\Users\mirza\Desktop\AITSurvey\AITSurvey\obj\Debug\AITSurvey.csproj.CopyComplete
 C:\Users\mirza\Desktop\AITSurvey\AITSurvey\obj\Debug\AITSurvey.dll
 C:\Users\mirza\Desktop\AITSurvey\AITSurvey\obj\Debug\AITSurvey.pdb
+C:\Users\mirza\Desktop\AITSurvey\AITSurvey\obj\Debug\AITSurvey.csprojAssemblyReference.cache
