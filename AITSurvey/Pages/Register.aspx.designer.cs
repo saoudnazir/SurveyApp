@@ -40,31 +40,13 @@ namespace AITSurvey.Pages {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl DOBGroup;
         
         /// <summary>
-        /// dobTxt control.
+        /// datepicker control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox dobTxt;
-        
-        /// <summary>
-        /// calenderBtn control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton calenderBtn;
-        
-        /// <summary>
-        /// dobCalender control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Calendar dobCalender;
+        protected global::System.Web.UI.WebControls.TextBox datepicker;
         
         /// <summary>
         /// userText control.

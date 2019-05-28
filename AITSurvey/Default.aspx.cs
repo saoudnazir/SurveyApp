@@ -12,7 +12,6 @@ namespace AITSurvey
 {
     public partial class _Default : Page
     {
-        private Database db = new Database();
         private Database.respondentsDataTable rdt = new Database.respondentsDataTable();
         private respondentsTableAdapter rta = new respondentsTableAdapter();
        
