@@ -15,11 +15,13 @@
 
     <div class="container">
         <div class="question-card">
-            <asp:Label ID="statementTxt" ClientIDMode="Static" runat="server" Text="Label"></asp:Label>
-            <asp:PlaceHolder ID="choiceHolder" runat="server"></asp:PlaceHolder>
+            <div class="column">
+                <asp:Label ID="statementTxt" ClientIDMode="Static" runat="server" Text="Label"></asp:Label>
+                <asp:PlaceHolder ID="choiceHolder" runat="server"></asp:PlaceHolder>
+            </div>
             <div class="row">
-                <asp:Button ID="PrevBtn" class="btn btn-primary" runat="server" Text="Back" />
-                <asp:Button ID="NextBtn" class="btn btn-success" runat="server" Text="Next" />
+                <asp:Button ID="PrevBtn" class="btn btn-primary" runat="server" Text="Back" OnClick="PrevBtn_Click" />
+                <asp:Button ID="NextBtn" class="btn btn-success" runat="server" Text="Next" OnClick="NextBtn_Click" />
             </div>
         </div>
     </div>

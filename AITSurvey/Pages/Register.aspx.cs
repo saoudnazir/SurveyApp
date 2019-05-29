@@ -28,7 +28,7 @@ namespace AITSurvey.Pages
             }
             catch (Exception excep)
             {
-
+                System.Diagnostics.Debug.WriteLine(excep);
             }
         }
     }
