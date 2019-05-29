@@ -16,10 +16,19 @@ namespace AITSurvey.Pages
 
         private optionsTableAdapter ota = new optionsTableAdapter();
         private Database.optionsDataTable otd = new Database.optionsDataTable();
+        public int nextQuestionId = 1;
 
         protected void Page_Load(object sender, EventArgs e)
-        {        
-            int questionID ;
+        {
+            string qType = "";
+            if (Session["currentQID"] == null)
+            {
+                // Start of the survey
+                Session["currentQID"] = 4;
+            }
+
+            nextQuestionId = int.Parse(Session["currentQID"].ToString());
+            /*int questionID;
             if (Session["nextQID"] != null)
             {
                 questionID = int.Parse(Session["nextQID"].ToString());
@@ -27,16 +36,11 @@ namespace AITSurvey.Pages
             else
             {
                 questionID = 4;
-            }
-
-
-            if (!IsPostBack)
-            {
-                string qType = "";
+            }*/
                 try
                 {
-                    int qCount = qta.GetQuestionByQID(qtd, questionID);
-                    int oCount = ota.GetOptionsByQID(otd, questionID);
+                    int qCount = qta.GetQuestionByQID(qtd, nextQuestionId);
+                    int oCount = ota.GetOptionsByQID(otd, nextQuestionId);
 
                     if (qCount == 1)
                     {
@@ -44,6 +48,7 @@ namespace AITSurvey.Pages
                         {
                             Session["currentQID"] = r["q_ID"].ToString();
                             statementTxt.Text = r["q_statement"].ToString();
+                            Session["qType"] = r["q_type"].ToString();
                             qType = r["q_type"].ToString();
                             Session["nextQID"] = r["q_next_ID"].ToString();
                         }
@@ -86,14 +91,36 @@ namespace AITSurvey.Pages
                 {
                     System.Diagnostics.Debug.WriteLine(excep);
                 }
-            }
-
-
+            
         }
 
         protected void NextBtn_Click(object sender, EventArgs e)
         {
             Session["lastQID"] = Session["currentQID"];
+            Session["currentQID"]=Session["nextQID"];
+            Control control = choiceHolder.FindControl("answer");
+            if (control is TextBox)
+            {
+                TextBox ans = control as TextBox;
+                string ansStr = ans.Text;
+                System.Diagnostics.Debug.WriteLine(ansStr);
+            }
+            else if (control is CheckBoxList)
+            {
+
+                System.Diagnostics.Debug.WriteLine("Checkbox");
+
+            }
+            else if (control is RadioButtonList)
+            {
+                System.Diagnostics.Debug.WriteLine("Radio");
+
+            }
+            else
+            {
+                System.Diagnostics.Debug.WriteLine("No Controls");
+            }
+
             Response.Redirect("~/Pages/Survey.aspx");
         }
 

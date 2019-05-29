@@ -12,6 +12,13 @@
             font-size:30px;
         }
     </style>
+    <script>
+        $$(document).ready(function () {
+            $("#choiceHolder").change(function () {
+                alert("The text has been changed.");
+            });
+        });
+    </script>
 
     <div class="container">
         <div class="question-card">
