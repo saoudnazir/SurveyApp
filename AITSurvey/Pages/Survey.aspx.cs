@@ -46,82 +46,88 @@ namespace AITSurvey.Pages
             {
                 questionID = 4;
             }*/
-                try
+            try
+            {
+                int qCount = qta.GetQuestionByQID(qtd, nextQuestionId);
+                int oCount = ota.GetOptionsByQID(otd, nextQuestionId);
+
+                if (qCount == 1)
                 {
-                    int qCount = qta.GetQuestionByQID(qtd, nextQuestionId);
-                    int oCount = ota.GetOptionsByQID(otd, nextQuestionId);
-
-                    if (qCount == 1)
+                    foreach (DataRow r in qtd.Rows)
                     {
-                        foreach (DataRow r in qtd.Rows)
+                        Session["currentQID"] = r["q_ID"].ToString();
+                        statementTxt.Text = r["q_statement"].ToString();
+                        Session["qType"] = r["q_type"].ToString();
+                        qType = r["q_type"].ToString();
+                        Session["nextQID"] = null;
+                        Session["nextQID"] = r["q_next_ID"].ToString();
+                        if (Session["nextQID"] == null)
                         {
-                            Session["currentQID"] = r["q_ID"].ToString();
-                            statementTxt.Text = r["q_statement"].ToString();
-                            Session["qType"] = r["q_type"].ToString();
-                            qType = r["q_type"].ToString();
-                            Session["nextQID"] = r["q_next_ID"].ToString();
-                        }
-                    }
-
-                    if (oCount > 0)
-                    {
-                        if (qType.Equals("text"))
-                        {
-                            TextBox textInput = new TextBox();
-                            textInput.ID = "answer";
-                            textInput.Attributes.Add("placeholder", "Enter your answer");
-                            choiceHolder.Controls.Add(textInput);
-                        }
-                        else if (qType.Equals("checkbox"))
-                        {
-                            CheckBoxList checkInput = new CheckBoxList();
-                            checkInput.ID = "answer";
-                            foreach (DataRow r in otd.Rows)
-                            {
-                                checkInput.Items.Add(r["option"].ToString());
-                            }
-                            choiceHolder.Controls.Add(checkInput);
-                        }
-                        else if (qType.Equals("radio"))
-                        {
-                            RadioButtonList radioInput = new RadioButtonList();
-                            radioInput.ID = "answer";
-                            foreach (DataRow r in otd.Rows)
-                            {
-                                radioInput.Items.Add(r["option"].ToString());
-                            }
-                            choiceHolder.Controls.Add(radioInput);
 
                         }
                     }
+                }
 
-                }
-                catch (Exception excep)
+                if (oCount >= 0)
                 {
-                    System.Diagnostics.Debug.WriteLine(excep);
+                    if (qType.Equals("text"))
+                    {
+                        TextBox textInput = new TextBox();
+                        textInput.ID = "answer";
+                        textInput.Attributes.Add("placeholder", "Enter your answer");
+                        choiceHolder.Controls.Add(textInput);
+                    }
+                    else if (qType.Equals("checkbox"))
+                    {
+                        CheckBoxList checkInput = new CheckBoxList();
+                        checkInput.ID = "answer";
+                        foreach (DataRow r in otd.Rows)
+                        {
+                            checkInput.Items.Add(r["option"].ToString()) ;
+                        }
+                        choiceHolder.Controls.Add(checkInput);
+                    }
+                    else if (qType.Equals("radio"))
+                    {
+                        RadioButtonList radioInput = new RadioButtonList();
+                        radioInput.ID = "answer";
+                        foreach (DataRow r in otd.Rows)
+                        {
+                            radioInput.Items.Add(r["option"].ToString());
+                        }
+                        choiceHolder.Controls.Add(radioInput);
+
+                    }
                 }
-            
+
+            }
+            catch (Exception excep)
+            {
+                System.Diagnostics.Debug.WriteLine(excep);
+            }
+
         }
 
         protected void NextBtn_Click(object sender, EventArgs e)
         {
-            Session["lastQID"] = Session["currentQID"];
-            Session["currentQID"]=Session["nextQID"];
+            int currentQID = int.Parse(Session["currentQID"].ToString());
+            Session["lastQID"] = currentQID;
+            Session["currentQID"] = Session["nextQID"];
             Control control = choiceHolder.FindControl("answer");
             if (control is TextBox)
             {
                 TextBox ans = control as TextBox;
                 string ansStr = ans.Text;
-                DBHandler.InsertAnswer(int.Parse(Session["lastQID"].ToString()), ansStr);
+                DBHandler.InsertAnswer(currentQID, ansStr);
             }
             else if (control is CheckBoxList)
             {
                 CheckBoxList ans = control as CheckBoxList;
-                foreach(ListItem box in ans.Items)
+                foreach (ListItem box in ans.Items)
                 {
                     if (box.Selected)
                     {
-                        System.Diagnostics.Debug.WriteLine(box.Text);
+                        DBHandler.InsertAnswer(currentQID, box.Text);
                     }
                 }
 
@@ -134,7 +140,7 @@ namespace AITSurvey.Pages
                 {
                     if (box.Selected)
                     {
-                        System.Diagnostics.Debug.WriteLine(box.Text);
+                        DBHandler.InsertAnswer(currentQID, box.Text);
                     }
                 }
 
