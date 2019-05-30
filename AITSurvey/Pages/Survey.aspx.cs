@@ -16,10 +16,19 @@ namespace AITSurvey.Pages
 
         private optionsTableAdapter ota = new optionsTableAdapter();
         private Database.optionsDataTable otd = new Database.optionsDataTable();
-        public int nextQuestionId = 1;
+
+
+        public int nextQuestionId = 4;
+
+        private List<KeyValuePair<int, string>> allAnswers = new List<KeyValuePair<int, string>>();
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (Session["answers"] != null)
+            {
+                allAnswers = (List<KeyValuePair<int, string>>)Session["answers"];
+            }
+
             string qType = "";
             if (Session["currentQID"] == null)
             {
@@ -103,17 +112,31 @@ namespace AITSurvey.Pages
             {
                 TextBox ans = control as TextBox;
                 string ansStr = ans.Text;
-                System.Diagnostics.Debug.WriteLine(ansStr);
+                DBHandler.InsertAnswer(int.Parse(Session["lastQID"].ToString()), ansStr);
             }
             else if (control is CheckBoxList)
             {
-
-                System.Diagnostics.Debug.WriteLine("Checkbox");
+                CheckBoxList ans = control as CheckBoxList;
+                foreach(ListItem box in ans.Items)
+                {
+                    if (box.Selected)
+                    {
+                        System.Diagnostics.Debug.WriteLine(box.Text);
+                    }
+                }
 
             }
             else if (control is RadioButtonList)
             {
                 System.Diagnostics.Debug.WriteLine("Radio");
+                RadioButtonList ans = control as RadioButtonList;
+                foreach (ListItem box in ans.Items)
+                {
+                    if (box.Selected)
+                    {
+                        System.Diagnostics.Debug.WriteLine(box.Text);
+                    }
+                }
 
             }
             else

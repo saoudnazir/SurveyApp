@@ -179,6 +179,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Database.xsd</DependentUpon>
     </Compile>
+    <Compile Include="DBHandler.cs" />
     <Compile Include="Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
