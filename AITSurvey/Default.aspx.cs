@@ -31,6 +31,7 @@ namespace AITSurvey
                     {
                         Session["userID"] = r["r_id"].ToString();
                     }
+                    Response.Redirect("~/Pages/Survey.aspx");
                 }
             }
             catch (Exception excep)
@@ -43,6 +44,12 @@ namespace AITSurvey
         protected void RegisterBtn_Click(object sender, EventArgs e)
         {
             Response.Redirect("~/Pages/Register.aspx");
+        }
+
+        protected void GuestBtn_Click(object sender, EventArgs e)
+        {
+            Session["userID"] = 1;
+            Response.Redirect("~/Pages/Survey.aspx");
         }
     }
 }

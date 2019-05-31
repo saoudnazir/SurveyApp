@@ -18,7 +18,7 @@
                     <asp:Button ID="RegisterBtn" class="btn btn-primary" runat="server" Text="Register" OnClick="RegisterBtn_Click" />
                 </div>
                 <h2>OR</h2>
-                <asp:Button ID="GuestBtn" runat="server" class="btn btn-success" Text="Continue as Guest" />
+                <asp:Button ID="GuestBtn" runat="server" class="btn btn-success" Text="Continue as Guest" Onclick="GuestBtn_Click" />
 
             </div>
 

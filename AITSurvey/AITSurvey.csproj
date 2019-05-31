@@ -136,6 +136,7 @@
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="images\calender.jpg" />
     <Content Include="Pages\Register.aspx" />
+    <Content Include="Pages\Search.aspx" />
     <Content Include="Pages\Survey.aspx" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -197,6 +198,13 @@
     </Compile>
     <Compile Include="Pages\Register.aspx.designer.cs">
       <DependentUpon>Register.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Search.aspx.cs">
+      <DependentUpon>Search.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pages\Search.aspx.designer.cs">
+      <DependentUpon>Search.aspx</DependentUpon>
     </Compile>
     <Compile Include="Pages\Survey.aspx.cs">
       <DependentUpon>Survey.aspx</DependentUpon>
