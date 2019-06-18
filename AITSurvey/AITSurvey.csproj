@@ -135,6 +135,7 @@
     </Content>
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="images\calender.jpg" />
+    <Content Include="Pages\EndSurvey.aspx" />
     <Content Include="Pages\Register.aspx" />
     <Content Include="Pages\Search.aspx" />
     <Content Include="Pages\Survey.aspx" />
@@ -191,7 +192,16 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Modal\Answer.cs" />
+    <Compile Include="Modal\Option.cs" />
     <Compile Include="Modal\User.cs" />
+    <Compile Include="Pages\EndSurvey.aspx.cs">
+      <DependentUpon>EndSurvey.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pages\EndSurvey.aspx.designer.cs">
+      <DependentUpon>EndSurvey.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Pages\Register.aspx.cs">
       <DependentUpon>Register.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

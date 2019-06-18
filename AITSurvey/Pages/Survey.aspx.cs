@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using AITSurvey.DatabaseTableAdapters;
+using AITSurvey.Modal;
 
 namespace AITSurvey.Pages
 {
@@ -18,26 +19,41 @@ namespace AITSurvey.Pages
         private Database.optionsDataTable odt = new Database.optionsDataTable();
 
 
-        public int nextQuestionId = 4;
-        private List<KeyValuePair<int, string>> allAnswers = new List<KeyValuePair<int, string>>();
-
+        public int nextQuestionId;
+        private List<Answer> allAnswers = new List<Answer>();
+        
         protected void Page_Load(object sender, EventArgs e)
         {
-
-            if (Session["answers"] != null)
-            {
-                allAnswers = (List<KeyValuePair<int, string>>)Session["answers"];
-            }
-
-            string qType = "";
-            if (Session["currentQID"] == null)
+            /*if (Session["currentQID"] == null)
             {
                 // Start of the survey
                 Session["currentQID"] = 8;
+            }*/
+
+            if (Session["answers"] != null)
+            {
+                allAnswers = (List<Answer>)Session["answers"];
+            }
+            Stack<int> followupQuestions = (Stack<int>)Session["followups"];
+            if (Session["followups"] == null)
+            {
+                followupQuestions = new Stack<int>() ;
+                followupQuestions.Push(12);
+                Session["followups"]= followupQuestions;
+            }
+            if(followupQuestions.Count>0)
+            {
+                Session["currentQID"] = followupQuestions.Peek();
+                foreach(Object a in followupQuestions)
+                {
+                    System.Diagnostics.Debug.WriteLine(a);
+                }
             }
 
-            nextQuestionId = int.Parse(Session["currentQID"].ToString());
+            string qType = "";
+           
 
+            nextQuestionId = int.Parse(Session["currentQID"].ToString());
             try
             {
                 int qCount = qta.GetQuestionByQID(qtd, nextQuestionId);
@@ -65,6 +81,7 @@ namespace AITSurvey.Pages
                         TextBox textInput = new TextBox();
                         textInput.ID = "answer";
                         textInput.Attributes.Add("placeholder", "Enter your answer");
+                        textInput.Attributes["nextQid"] = Session["nextQID"].ToString();
                         choiceHolder.Controls.Add(textInput);
                     }
                     else if (qType.Equals("checkbox"))
@@ -74,9 +91,14 @@ namespace AITSurvey.Pages
                         foreach (DataRow r in odt.Rows)
                         {
                             ListItem item = new ListItem();
-
-                            item.Attributes["nextQid"] = r["q_next_ID"].ToString();
-
+                            if(r["q_next_ID"].ToString() != "")
+                            {
+                                item.Attributes["nextQid"] = r["q_next_ID"].ToString();
+                            }
+                            else
+                            {
+                                //item.Attributes["nextQid"] = Session["nextQID"].ToString();
+                            }
                             item.Text = r["option"].ToString();
                             checkInput.Items.Add(item);
 
@@ -90,8 +112,14 @@ namespace AITSurvey.Pages
                         foreach (DataRow r in odt.Rows)
                         {
                             ListItem item = new ListItem();
-
-                            item.Attributes["nextQid"] = r["q_next_ID"].ToString();
+                            if (r["q_next_ID"].ToString() != "")
+                            {
+                                item.Attributes["nextQid"] = r["q_next_ID"].ToString();
+                            }
+                            else
+                            {
+                                //item.Attributes["nextQid"] = Session["nextQID"].ToString();
+                            }
 
                             item.Text = r["option"].ToString();
                             radioInput.Items.Add(item);
@@ -100,7 +128,6 @@ namespace AITSurvey.Pages
 
                     }
                 }
-
             }
             catch (Exception excep)
             {
@@ -113,18 +140,44 @@ namespace AITSurvey.Pages
         {
             try
             {
+                Stack<int> followupQuestions = (Stack<int>)Session["followups"];
+                int currentQID = followupQuestions.Peek();
+                int qCount = qta.GetQuestionByQID(qtd, nextQuestionId);
+                foreach(DataRow r in qtd.Rows)
+                {
+                    if (!followupQuestions.Contains(int.Parse(r["q_next_ID"].ToString())))
+                    {
+                        if (int.Parse(r["q_next_ID"].ToString()) !=0){
+                            followupQuestions.Push(int.Parse(r["q_next_ID"].ToString()));
+                        }
+                    }
+                }
 
-                int currentQID = int.Parse(Session["currentQID"].ToString());
-                Session["lastQID"] = currentQID;
-                Session["currentQID"] = Session["nextQID"];
                 Control control = choiceHolder.FindControl("answer");
                 if (control is TextBox)
                 {
-                    TextBox ans = control as TextBox;
-                    string ansStr = ans.Text;
+                    TextBox anstxt = control as TextBox;
+                    string ansStr = anstxt.Text;
                     if (ansStr != null)
                     {
-                        DBHandler.InsertAnswer(currentQID, ansStr);
+                        var nextQID = anstxt.Attributes["nextQid"];
+                        //DBHandler.InsertAnswer(currentQID, ansStr);
+                        Answer ans = new Answer();
+                        ans.answer = ansStr;
+                        ans.qid = currentQID;
+                        if (nextQID != "")
+                        {
+                            //Session["currentQID"] = nextQID;
+                            if (!followupQuestions.Contains(int.Parse(nextQID)))
+                            {
+                                if(followupQuestions.Peek() != 0)
+                                {
+                                    followupQuestions.Push(int.Parse(nextQID));
+                                }
+                            }
+                        }
+                        allAnswers.Add(ans);
+
                     }
                     else
                     {
@@ -133,16 +186,27 @@ namespace AITSurvey.Pages
                 }
                 else if (control is CheckBoxList)
                 {
-                    CheckBoxList ans = control as CheckBoxList;
-                    foreach (ListItem box in ans.Items)
+                    CheckBoxList ansCheckBox = control as CheckBoxList;
+                    foreach (ListItem box in ansCheckBox.Items)
                     {
                         if (box.Selected)
                         {
-                            var nextQID = box.Attributes["nextQid"];
-                            DBHandler.InsertAnswer(currentQID, box.Text);
-                            if(nextQID != "")
+                            string nextQID = box.Attributes["nextQid"];
+                            //DBHandler.InsertAnswer(currentQID, box.Text);
+                            Answer ans = new Answer();
+                            ans.answer = box.Text;
+                            ans.qid = currentQID;
+                            allAnswers.Add(ans);
+                            if(nextQID != "" && nextQID != null)
                             {
-                                Session["currentQID"] = nextQID;
+                                //Session["currentQID"] = nextQID;
+                                if (!followupQuestions.Contains(int.Parse(nextQID)))
+                                {
+                                    if (followupQuestions.Peek() != 0)
+                                    {
+                                        followupQuestions.Push(int.Parse(nextQID));
+                                    }
+                                }
                             }
                         }
                     }
@@ -150,33 +214,43 @@ namespace AITSurvey.Pages
                 }
                 else if (control is RadioButtonList)
                 {
-                    System.Diagnostics.Debug.WriteLine("Radio");
-                    RadioButtonList ans = control as RadioButtonList;
-                    foreach (ListItem box in ans.Items)
+                    RadioButtonList ansRadioBox = control as RadioButtonList;
+                    foreach (ListItem box in ansRadioBox.Items)
                     {
                         if (box.Selected)
                         {
-                            var nextQID = box.Attributes["nextQid"];
-                            DBHandler.InsertAnswer(currentQID, box.Text);
-                            if (nextQID != "")
+                            string nextQID = box.Attributes["nextQid"];
+                            //DBHandler.InsertAnswer(currentQID, box.Text);
+                            Answer ans = new Answer();
+                            ans.answer = box.Text;
+                            ans.qid = currentQID;
+                            allAnswers.Add(ans);
+                            if (nextQID != "" && nextQID != null)
                             {
-                                Session["currentQID"] = nextQID;
+                                //Session["currentQID"] = nextQID;
+                                if (!followupQuestions.Contains(int.Parse(nextQID)))
+                                {
+                                    followupQuestions.Push(int.Parse(nextQID));
+                                }
                             }
                         }
                     }
-
                 }
                 else
                 {
                     System.Diagnostics.Debug.WriteLine("No Controls");
                 }
+                followupQuestions.Pop();
+                Session["answers"] = allAnswers;
+                Session["followups"] = followupQuestions;
+
             }
             catch (Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine(ex);
             }
-
             Response.Redirect("~/Pages/Survey.aspx");
+
         }
 
         protected void PrevBtn_Click(object sender, EventArgs e)
