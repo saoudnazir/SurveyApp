@@ -22,7 +22,10 @@ namespace AITSurvey.Pages
             }
             else
             {
-                System.Diagnostics.Debug.WriteLine("Answer list is empty!");
+                SubmitBtn.Enabled = false;
+                CancelBtn.Text = "Logout";
+                EOSMessage.Text = "No Answers";
+                //System.Diagnostics.Debug.WriteLine("Answer list is empty!");
                 //Response.Redirect("~/Default.aspx");
             }
 

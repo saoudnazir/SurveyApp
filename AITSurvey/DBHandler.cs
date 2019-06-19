@@ -59,12 +59,12 @@ namespace AITSurvey
             return sesID;
         }
 
-        public static int InsertRespondent(string username, string password, string firstname, string lastname, string gender, string state, string suburb, int postcode, string dob, string email)
+        public static int InsertRespondent(string username, string password, string firstname, string lastname, string gender, string state, string suburb, int postcode, string dob, string email,int phone)
         {
             int results = 0;
             try
             {
-                results = rta.Register(username, password, firstname, lastname, gender, state, suburb, postcode, dob, email);
+                results = rta.Register(username, password, firstname, lastname, gender, state, suburb, postcode, dob, email,phone);
             }
             catch (Exception ex)
             {

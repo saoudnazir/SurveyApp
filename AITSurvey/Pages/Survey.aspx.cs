@@ -147,7 +147,7 @@ namespace AITSurvey.Pages
                 {
                     TextBox anstxt = control as TextBox;
                     string ansStr = anstxt.Text;
-                    if (ansStr != null)
+                    if (!string.IsNullOrEmpty(ansStr))
                     {
                         var nextQID = anstxt.Attributes["nextQid"];
                         //DBHandler.InsertAnswer(currentQID, ansStr);

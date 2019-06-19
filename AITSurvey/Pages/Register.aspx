@@ -61,6 +61,10 @@
                 <asp:TextBox ID="emailRTxt" TextMode="Email" class="form-control" placeholder="Email" aria-describedby="basic-addon1" runat="server"></asp:TextBox>
             </div>
             <div class="input-group">
+                <span class="input-group-addon">Phone Number</span>
+                <asp:TextBox ID="phoneTxt" Text="0" TextMode="Number" class="form-control" placeholder="Phone Number" aria-describedby="basic-addon1" runat="server"></asp:TextBox>
+            </div>
+            <div class="input-group">
                 <span class="input-group-addon">Password</span>
                 <asp:TextBox ID="passwordRTxt" TextMode="Password" class="form-control" placeholder="Password" aria-describedby="basic-addon1" runat="server"></asp:TextBox>
             </div>

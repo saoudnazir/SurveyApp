@@ -3685,8 +3685,8 @@ namespace AITSurvey.DatabaseTableAdapters {
             this._commandCollection[2] = new global::System.Data.SqlClient.SqlCommand();
             this._commandCollection[2].Connection = this.Connection;
             this._commandCollection[2].CommandText = @"INSERT INTO respondents
-                         (r_username, r_password, r_first_name, r_last_name, r_gender, r_state, r_suburb, r_post_code, r_dob, r_email)
-VALUES        (@r_username,@r_password,@r_first_name,@r_last_name,@r_gender,@r_state,@r_suburb,@r_post_code,@r_dob,@r_email)";
+                         (r_username, r_password, r_first_name, r_last_name, r_gender, r_state, r_suburb, r_post_code, r_dob, r_email, r_phone)
+VALUES        (@r_username,@r_password,@r_first_name,@r_last_name,@r_gender,@r_state,@r_suburb,@r_post_code,@r_dob,@r_email,@phone)";
             this._commandCollection[2].CommandType = global::System.Data.CommandType.Text;
             this._commandCollection[2].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@r_username", global::System.Data.SqlDbType.VarChar, 50, global::System.Data.ParameterDirection.Input, 0, 0, "r_username", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._commandCollection[2].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@r_password", global::System.Data.SqlDbType.VarChar, 50, global::System.Data.ParameterDirection.Input, 0, 0, "r_password", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
@@ -3698,6 +3698,7 @@ VALUES        (@r_username,@r_password,@r_first_name,@r_last_name,@r_gender,@r_s
             this._commandCollection[2].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@r_post_code", global::System.Data.SqlDbType.Int, 4, global::System.Data.ParameterDirection.Input, 0, 0, "r_post_code", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._commandCollection[2].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@r_dob", global::System.Data.SqlDbType.Date, 3, global::System.Data.ParameterDirection.Input, 0, 0, "r_dob", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._commandCollection[2].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@r_email", global::System.Data.SqlDbType.VarChar, 50, global::System.Data.ParameterDirection.Input, 0, 0, "r_email", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._commandCollection[2].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@phone", global::System.Data.SqlDbType.Int, 4, global::System.Data.ParameterDirection.Input, 0, 0, "r_phone", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -3970,7 +3971,7 @@ VALUES        (@r_username,@r_password,@r_first_name,@r_last_name,@r_gender,@r_s
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Insert, false)]
-        public virtual int Register(string r_username, string r_password, string r_first_name, string r_last_name, string r_gender, string r_state, string r_suburb, int r_post_code, string r_dob, string r_email) {
+        public virtual int Register(string r_username, string r_password, string r_first_name, string r_last_name, string r_gender, string r_state, string r_suburb, int r_post_code, string r_dob, string r_email, global::System.Nullable<int> phone) {
             global::System.Data.SqlClient.SqlCommand command = this.CommandCollection[2];
             if ((r_username == null)) {
                 throw new global::System.ArgumentNullException("r_username");
@@ -4026,6 +4027,12 @@ VALUES        (@r_username,@r_password,@r_first_name,@r_last_name,@r_gender,@r_s
             }
             else {
                 command.Parameters[9].Value = ((string)(r_email));
+            }
+            if ((phone.HasValue == true)) {
+                command.Parameters[10].Value = ((int)(phone.Value));
+            }
+            else {
+                command.Parameters[10].Value = global::System.DBNull.Value;
             }
             global::System.Data.ConnectionState previousConnectionState = command.Connection.State;
             if (((command.Connection.State & global::System.Data.ConnectionState.Open) 

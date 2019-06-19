@@ -18,6 +18,14 @@
             <asp:TextBox ID="searchInput" class="form-control" runat="server"></asp:TextBox>
             <asp:Button runat="server" Text="Search" ID="SearchBtn" class="btn btn-primary" OnClick="SearchBtn_Click" />
         </div>
+        <div>
+            <asp:CheckBoxList RepeatDirection="Horizontal" runat="server" ID="searchCriteria">
+                <asp:ListItem>Bank</asp:ListItem>
+                <asp:ListItem>Bank Service</asp:ListItem>
+                <asp:ListItem>Post Code</asp:ListItem>
+                <asp:ListItem>Suburb</asp:ListItem>
+            </asp:CheckBoxList>
+        </div>
         <asp:Label ID="searchMessage" ForeColor="Red" runat="server" Text=""></asp:Label>
         <asp:GridView CssClass="table table-striped" ID="searchTable" AutoGenerateColumns="false" runat="server">
          <Columns>

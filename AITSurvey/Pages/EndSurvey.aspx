@@ -4,6 +4,7 @@
     <div class="container">
         <div class="column">
             <h1>End of Survey</h1>
+            <asp:Label ID="EOSMessage" runat="server" Text="Your Response"></asp:Label>
             <asp:GridView CssClass="table table-striped" ID="responseTable" AutoGenerateColumns="false" runat="server">
                 <Columns>
                     <asp:BoundField DataField="qStatement" HeaderText="Question" />

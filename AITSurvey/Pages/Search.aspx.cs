@@ -11,7 +11,6 @@ namespace AITSurvey.Pages
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            System.Diagnostics.Debug.WriteLine((bool)Session["access"]);
             if (Session["access"] != null)
             {
                 if ((bool)Session["access"] == false)
@@ -19,11 +18,24 @@ namespace AITSurvey.Pages
                     Response.Redirect("~/Default.aspx");
                 }
             }
+            else
+            {
+                Response.Redirect("~/Default.aspx");
+            }
         }
 
         protected void SearchBtn_Click(object sender, EventArgs e)
         {
             searchMessage.Text = null;
+            /*List<string> criterias = new List<string>();
+
+            foreach(ListItem li in searchCriteria.Items)
+            {
+                if (li.Selected)
+                {
+                    criterias.Add(li.Text);
+                }
+            }*/
             if (!String.IsNullOrEmpty(searchInput.Text))
             {
                 var results = DBHandler.search(searchInput.Text);

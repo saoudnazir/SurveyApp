@@ -28,9 +28,10 @@ namespace AITSurvey.Pages
             int postcode = int.Parse(postCodeTxt.Text);
             string dob = datepicker.Text;
             string email = emailRTxt.Text;
-            if(!String.IsNullOrEmpty(username) && !String.IsNullOrEmpty(password) && !String.IsNullOrEmpty(firstname) && !String.IsNullOrEmpty(lastname) && !String.IsNullOrEmpty(gender) && !String.IsNullOrEmpty(state) && !String.IsNullOrEmpty(suburb) && !String.IsNullOrEmpty(dob) && !String.IsNullOrEmpty(email) && postcode != 0)
+            int phone = int.Parse(phoneTxt.Text);
+            if (phone != 0 && !String.IsNullOrEmpty(username) && !String.IsNullOrEmpty(password) && !String.IsNullOrEmpty(firstname) && !String.IsNullOrEmpty(lastname) && !String.IsNullOrEmpty(gender) && !String.IsNullOrEmpty(state) && !String.IsNullOrEmpty(suburb) && !String.IsNullOrEmpty(dob) && !String.IsNullOrEmpty(email) && postcode != 0)
             {
-                int count = DBHandler.InsertRespondent(username, password, firstname, lastname, gender, state, suburb, postcode, dob, email);
+                int count = DBHandler.InsertRespondent(username, password, firstname, lastname, gender, state, suburb, postcode, dob, email,phone);
                 if (count > 0)
                 {
                     Response.Redirect("~/Default.aspx");
@@ -38,7 +39,7 @@ namespace AITSurvey.Pages
             }
             else
             {
-                requiredTxt.Text = "Please fill up all fields !";
+                requiredTxt.Text = "Please fill up all fields OR Make sure you are entering correct information !";
             }
             
 
