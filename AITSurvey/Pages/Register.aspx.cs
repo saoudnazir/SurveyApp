@@ -18,14 +18,30 @@ namespace AITSurvey.Pages
 
         protected void RegisterRBtn_Click(object sender, EventArgs e)
         {
-            try
+            string username = userText.Text;
+            string password = passwordRTxt.Text;
+            string firstname = fNameTxt.Text;
+            string lastname = lNameTxt.Text;
+            string gender = genderTxt.SelectedValue;
+            string state = stateTxt.SelectedValue;
+            string suburb = suburbTxt.Text;
+            int postcode = int.Parse(postCodeTxt.Text);
+            string dob = datepicker.Text;
+            string email = emailRTxt.Text;
+            if(!String.IsNullOrEmpty(username) && !String.IsNullOrEmpty(password) && !String.IsNullOrEmpty(firstname) && !String.IsNullOrEmpty(lastname) && !String.IsNullOrEmpty(gender) && !String.IsNullOrEmpty(state) && !String.IsNullOrEmpty(suburb) && !String.IsNullOrEmpty(dob) && !String.IsNullOrEmpty(email) && postcode != 0)
             {
-                Response.Redirect("~/Pages/Survey");
+                int count = DBHandler.InsertRespondent(username, password, firstname, lastname, gender, state, suburb, postcode, dob, email);
+                if (count > 0)
+                {
+                    Response.Redirect("~/Default.aspx");
+                }
             }
-            catch (Exception excep)
+            else
             {
-                System.Diagnostics.Debug.WriteLine(excep);
+                requiredTxt.Text = "Please fill up all fields !";
             }
+            
+
         }
     }
 }

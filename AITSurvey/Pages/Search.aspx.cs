@@ -11,7 +11,32 @@ namespace AITSurvey.Pages
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            System.Diagnostics.Debug.WriteLine((bool)Session["access"]);
+            if (Session["access"] != null)
+            {
+                if ((bool)Session["access"] == false)
+                {
+                    Response.Redirect("~/Default.aspx");
+                }
+            }
+        }
 
+        protected void SearchBtn_Click(object sender, EventArgs e)
+        {
+            searchMessage.Text = null;
+            if (!String.IsNullOrEmpty(searchInput.Text))
+            {
+                var results = DBHandler.search(searchInput.Text);
+                if(results != null)
+                {
+                    searchTable.DataSource = results;
+                    searchTable.DataBind();
+                }
+            }
+            else
+            {
+                searchMessage.Text = "Please Enter Some Text!!!!";
+            }
         }
     }
 }

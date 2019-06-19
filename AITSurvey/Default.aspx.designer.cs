@@ -31,6 +31,15 @@ namespace AITSurvey {
         protected global::System.Web.UI.WebControls.TextBox passwordTxt;
         
         /// <summary>
+        /// loginAs control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RadioButtonList loginAs;
+        
+        /// <summary>
         /// LoginBtn control.
         /// </summary>
         /// <remarks>
@@ -56,5 +65,14 @@ namespace AITSurvey {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button GuestBtn;
+        
+        /// <summary>
+        /// LoginMessage control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label LoginMessage;
     }
 }

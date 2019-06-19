@@ -24,12 +24,10 @@ namespace AITSurvey.Pages
         
         protected void Page_Load(object sender, EventArgs e)
         {
-            /*if (Session["currentQID"] == null)
+            if(Session["userID"] == null)
             {
-                // Start of the survey
-                Session["currentQID"] = 8;
-            }*/
-
+                Response.Redirect("~/Default.aspx");
+            }
             if (Session["answers"] != null)
             {
                 allAnswers = (List<Answer>)Session["answers"];
@@ -38,22 +36,17 @@ namespace AITSurvey.Pages
             if (Session["followups"] == null)
             {
                 followupQuestions = new Stack<int>() ;
-                followupQuestions.Push(12);
+                followupQuestions.Push(4);
                 Session["followups"]= followupQuestions;
             }
             if(followupQuestions.Count>0)
             {
-                Session["currentQID"] = followupQuestions.Peek();
-                foreach(Object a in followupQuestions)
-                {
-                    System.Diagnostics.Debug.WriteLine(a);
-                }
+                nextQuestionId = followupQuestions.Peek();
             }
 
             string qType = "";
            
 
-            nextQuestionId = int.Parse(Session["currentQID"].ToString());
             try
             {
                 int qCount = qta.GetQuestionByQID(qtd, nextQuestionId);
@@ -95,10 +88,6 @@ namespace AITSurvey.Pages
                             {
                                 item.Attributes["nextQid"] = r["q_next_ID"].ToString();
                             }
-                            else
-                            {
-                                //item.Attributes["nextQid"] = Session["nextQID"].ToString();
-                            }
                             item.Text = r["option"].ToString();
                             checkInput.Items.Add(item);
 
@@ -138,10 +127,10 @@ namespace AITSurvey.Pages
 
         protected void NextBtn_Click(object sender, EventArgs e)
         {
+            Stack<int> followupQuestions = (Stack<int>)Session["followups"];
             try
             {
-                Stack<int> followupQuestions = (Stack<int>)Session["followups"];
-                int currentQID = followupQuestions.Peek();
+                int currentQID = followupQuestions.Pop();
                 int qCount = qta.GetQuestionByQID(qtd, nextQuestionId);
                 foreach(DataRow r in qtd.Rows)
                 {
@@ -165,15 +154,13 @@ namespace AITSurvey.Pages
                         Answer ans = new Answer();
                         ans.answer = ansStr;
                         ans.qid = currentQID;
+                        ans.qStatement = statementTxt.Text;
                         if (nextQID != "")
                         {
                             //Session["currentQID"] = nextQID;
                             if (!followupQuestions.Contains(int.Parse(nextQID)))
                             {
-                                if(followupQuestions.Peek() != 0)
-                                {
-                                    followupQuestions.Push(int.Parse(nextQID));
-                                }
+                                followupQuestions.Push(int.Parse(nextQID));
                             }
                         }
                         allAnswers.Add(ans);
@@ -196,16 +183,14 @@ namespace AITSurvey.Pages
                             Answer ans = new Answer();
                             ans.answer = box.Text;
                             ans.qid = currentQID;
+                            ans.qStatement = statementTxt.Text;
                             allAnswers.Add(ans);
                             if(nextQID != "" && nextQID != null)
                             {
                                 //Session["currentQID"] = nextQID;
                                 if (!followupQuestions.Contains(int.Parse(nextQID)))
                                 {
-                                    if (followupQuestions.Peek() != 0)
-                                    {
-                                        followupQuestions.Push(int.Parse(nextQID));
-                                    }
+                                    followupQuestions.Push(int.Parse(nextQID));
                                 }
                             }
                         }
@@ -224,6 +209,7 @@ namespace AITSurvey.Pages
                             Answer ans = new Answer();
                             ans.answer = box.Text;
                             ans.qid = currentQID;
+                            ans.qStatement = statementTxt.Text;
                             allAnswers.Add(ans);
                             if (nextQID != "" && nextQID != null)
                             {
@@ -240,7 +226,6 @@ namespace AITSurvey.Pages
                 {
                     System.Diagnostics.Debug.WriteLine("No Controls");
                 }
-                followupQuestions.Pop();
                 Session["answers"] = allAnswers;
                 Session["followups"] = followupQuestions;
 
@@ -249,15 +234,21 @@ namespace AITSurvey.Pages
             {
                 System.Diagnostics.Debug.WriteLine(ex);
             }
-            Response.Redirect("~/Pages/Survey.aspx");
+            if(followupQuestions.Count== 0)
+            {
+                Response.Redirect("~/Pages/EndSurvey.aspx");
+            }
+            else
+            {
+                Response.Redirect("~/Pages/Survey.aspx");
+            }
 
         }
 
         protected void PrevBtn_Click(object sender, EventArgs e)
         {
-            Session["nextQID"] = Session["lastQID"];
 
-            Response.Redirect("~/Pages/Survey.aspx");
+            Response.Redirect("~/Pages/Logout.aspx");
         }
     }
 }

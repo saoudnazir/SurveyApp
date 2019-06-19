@@ -16,45 +16,16 @@
     <div class="container">
         <div class="row">
             <asp:TextBox ID="searchInput" class="form-control" runat="server"></asp:TextBox>
-            <asp:Button runat="server" Text="Search" ID="SearchBtn" class="btn btn-primary" />
+            <asp:Button runat="server" Text="Search" ID="SearchBtn" class="btn btn-primary" OnClick="SearchBtn_Click" />
         </div>
-        <div>
-            <asp:CheckBoxList RepeatDirection="Horizontal" runat="server" ID="filter" CssClass="filter">
-                <asp:ListItem>Bank</asp:ListItem>
-                <asp:ListItem>Bank Service</asp:ListItem>
-                <asp:ListItem>Post Code</asp:ListItem>
-                <asp:ListItem>Suburb</asp:ListItem>
-            </asp:CheckBoxList>
-        </div>
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">First</th>
-                    <th scope="col">Last</th>
-                    <th scope="col">Email</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <th scope="row">1</th>
-                    <td>Saoud</td>
-                    <td>Nazir</td>
-                    <td>mirzasaoud60@gmail.com</td>
-                </tr>
-                <tr>
-                    <th scope="row">2</th>
-                    <td>Santiago</td>
-                    <td>Morales</td>
-                    <td>Santiago@gmail.com</td>
-                </tr>
-                <tr>
-                    <th scope="row">3</th>
-                    <td>Marcus</td>
-                    <td>V</td>
-                    <td>marcus@gmail.com</td>
-                </tr>
-            </tbody>
-        </table>
+        <asp:Label ID="searchMessage" ForeColor="Red" runat="server" Text=""></asp:Label>
+        <asp:GridView CssClass="table table-striped" ID="searchTable" AutoGenerateColumns="false" runat="server">
+         <Columns>
+             <asp:BoundField DataField="firstname" HeaderText="First name" />
+             <asp:BoundField DataField="lastname" HeaderText="Last name" />
+             <asp:BoundField DataField="rID" HeaderText="User ID" />
+             <asp:BoundField DataField="answer" HeaderText="His Answer" />
+         </Columns>
+     </asp:GridView>
     </div>
 </asp:Content>

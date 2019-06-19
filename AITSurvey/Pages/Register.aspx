@@ -10,6 +10,21 @@
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script>
+        $(document).ready(function () {
+            $("#RegisterRBtn").click(function () {
+                var isValid;
+                $("input").each(function () {
+                    var element = $(this);
+                    if (element.val() == "") {
+                        isValid = false;
+                    }
+                });
+                alert(isValid);
+            });
+
+        });
+        
+
         $(function () {
             $("#datepicker").datepicker({
                 beforeShow: function () {
@@ -75,12 +90,11 @@
             </div>
             <div class="input-group">
                 <span class="input-group-addon">Post Code</span>
-                <asp:TextBox ID="postCodeTxt" TextMode="Number" class="form-control" placeholder="Post Code" aria-describedby="basic-addon1" runat="server"></asp:TextBox>
+                <asp:TextBox ID="postCodeTxt" TextMode="Number" class="form-control" Text="0" placeholder="Post Code" aria-describedby="basic-addon1" runat="server"></asp:TextBox>
             </div>
-
+                <asp:Label ID="requiredTxt" runat="server" Text="*All Fields are required !"></asp:Label>
             <div class="column">
                 <div class="row">
-                    <asp:Button ID="LoginRBtn" class="btn btn-primary" runat="server" Text="Login" />
                     <asp:Button ID="RegisterRBtn" class="btn btn-primary" runat="server" Text="Register" OnClick="RegisterRBtn_Click" />
                 </div>
                 <h2>OR</h2>
