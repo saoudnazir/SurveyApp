@@ -78,6 +78,7 @@ namespace AITSurvey
             List<Search> results = new List<Search>();
             try
             {
+                System.Diagnostics.Debug.WriteLine("Searching By Bank or Bank Services");
                 var output = ata.SearchByWord(word);
                 if(output!= null)
                 {
@@ -140,5 +141,42 @@ namespace AITSurvey
             }
             return id;
         }
+
+        public static List<Search> SearchBySuburbORPostCode(string word, string searchBy)
+        {
+            List<Search> results = new List<Search>();
+            
+            try
+            {
+                if (searchBy.Equals("Suburb"))
+                {
+                    System.Diagnostics.Debug.WriteLine("Searching By Suburb");
+                    rdt = rta.GetRespondentBySuburb(word);
+                }
+                else if(searchBy.Equals("Post Code"))
+                {
+                    System.Diagnostics.Debug.WriteLine("Searching By Post Code");
+                    rdt = rta.GetRespondentByPostCode(int.Parse(word));
+                }
+                if (rdt != null)
+                {
+                    foreach(DataRow r in rdt)
+                    {
+                        Search s = new Search();
+                        s.firstname = r["r_first_name"].ToString();
+                        s.lastname = r["r_last_name"].ToString();
+                        s.answer = r["r_suburb"].ToString();
+                        s.rID = int.Parse(r["r_id"].ToString());
+                        results.Add(s);
+                    }
+                }
+            }catch(Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex);
+            }
+            return results;
+        }
+
+        
     }
 }

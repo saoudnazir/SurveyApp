@@ -13,7 +13,7 @@
         }
     </style>
     <script>
-        $$(document).ready(function () {
+        $(document).ready(function () {
             $("#choiceHolder").change(function () {
                 alert("The text has been changed.");
             });
@@ -25,11 +25,12 @@
             <div class="column">
                 <asp:Label ID="statementTxt" ClientIDMode="Static" runat="server" Text="Label"></asp:Label>
                 <asp:PlaceHolder ID="choiceHolder" runat="server"></asp:PlaceHolder>
-            </div>
-            <div class="row">
+                <div class="row">
                 <asp:Button ID="PrevBtn" class="btn btn-primary" runat="server" Text="Cancel" OnClick="PrevBtn_Click" />
                 <asp:Button ID="NextBtn" class="btn btn-success" runat="server" Text="Next" OnClick="NextBtn_Click" />
             </div>
+            </div>
+            
         </div>
     </div>
 </asp:Content>
