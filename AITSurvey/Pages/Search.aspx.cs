@@ -29,6 +29,7 @@ namespace AITSurvey.Pages
             searchMessage.Text = null;
             List<string> criterias = new List<string>();
             List<Modal.Search> results = new List<Modal.Search>();
+            List<Modal.Search> allresuls = new List<Modal.Search>();
             foreach (ListItem li in searchCriteria.Items)
             {
                 if (li.Selected)
@@ -36,27 +37,45 @@ namespace AITSurvey.Pages
                     if (!String.IsNullOrEmpty(searchInput.Text) && li.Text == "Suburb")
                     {
                         results = DBHandler.SearchBySuburbORPostCode(searchInput.Text, "Suburb");
-                        
+                        foreach(var r in results)
+                        {
+                            Modal.Search search = new Modal.Search();
+                            search.answer = r.answer;
+                            search.firstname = r.firstname;
+                            search.lastname = r.lastname;
+                            search.rID = r.rID;
+                            allresuls.Add(search);
+                        }
                     }
-
                     else if (!String.IsNullOrEmpty(searchInput.Text) && li.Text == "Post Code")
                     {
                             var isNumeric = int.TryParse(searchInput.Text, out int n);
                         if (isNumeric)
                         {
                             results = DBHandler.SearchBySuburbORPostCode(searchInput.Text, "Post Code");
+                            foreach (var r in results)
+                            {
+                                Modal.Search search = new Modal.Search();
+                                search.answer = r.answer;
+                                search.firstname = r.firstname;
+                                search.lastname = r.lastname;
+                                search.rID = r.rID;
+                                allresuls.Add(search);
+                            }
                         }
-                        else
-                        {
-                            searchMessage.Text = "Please enter Post Code in correct format.";
-                        }
-
-
                     }
-
                     else if (!String.IsNullOrEmpty(searchInput.Text) && (li.Text=="Bank" || li.Text=="Bank Service"))
                     {
                         results = DBHandler.search(searchInput.Text);
+                        foreach (var r in results)
+                        {
+                            Modal.Search search = new Modal.Search();
+                            search.answer = r.answer;
+                            search.firstname = r.firstname;
+                            search.lastname = r.lastname;
+                            search.rID = r.rID;
+                            allresuls.Add(search);
+                        }
                     }
                     else
                     {
@@ -66,7 +85,7 @@ namespace AITSurvey.Pages
             }
             if (results != null)
             {
-                searchTable.DataSource = results;
+                searchTable.DataSource = allresuls;
                 searchTable.DataBind();
             }
 

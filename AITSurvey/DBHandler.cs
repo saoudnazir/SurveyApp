@@ -80,7 +80,9 @@ namespace AITSurvey
             {
                 System.Diagnostics.Debug.WriteLine("Searching By Bank or Bank Services");
                 var output = ata.SearchByWord(word);
-                if(output!= null)
+                System.Diagnostics.Debug.WriteLine(word);
+                System.Diagnostics.Debug.WriteLine(output);
+                if (output!= null)
                 {
                     foreach(DataRow r in output)
                     {
@@ -91,6 +93,10 @@ namespace AITSurvey
                         s.lastname = r["r_last_name"].ToString();
                         results.Add(s);
                     }
+                }
+                else
+                {
+                    System.Diagnostics.Debug.WriteLine("Output is null");
                 }
             }
             catch (Exception ex)
@@ -152,24 +158,37 @@ namespace AITSurvey
                 {
                     System.Diagnostics.Debug.WriteLine("Searching By Suburb");
                     rdt = rta.GetRespondentBySuburb(word);
+                    if (rdt != null)
+                    {
+                        foreach (DataRow r in rdt)
+                        {
+                            Search s = new Search();
+                            s.firstname = r["r_first_name"].ToString();
+                            s.lastname = r["r_last_name"].ToString();
+                            s.answer = r["r_suburb"].ToString();
+                            s.rID = int.Parse(r["r_id"].ToString());
+                            results.Add(s);
+                        }
+                    }
                 }
                 else if(searchBy.Equals("Post Code"))
                 {
                     System.Diagnostics.Debug.WriteLine("Searching By Post Code");
                     rdt = rta.GetRespondentByPostCode(int.Parse(word));
-                }
-                if (rdt != null)
-                {
-                    foreach(DataRow r in rdt)
+                    if (rdt != null)
                     {
-                        Search s = new Search();
-                        s.firstname = r["r_first_name"].ToString();
-                        s.lastname = r["r_last_name"].ToString();
-                        s.answer = r["r_suburb"].ToString();
-                        s.rID = int.Parse(r["r_id"].ToString());
-                        results.Add(s);
+                        foreach (DataRow r in rdt)
+                        {
+                            Search s = new Search();
+                            s.firstname = r["r_first_name"].ToString();
+                            s.lastname = r["r_last_name"].ToString();
+                            s.answer = r["r_post_code"].ToString();
+                            s.rID = int.Parse(r["r_id"].ToString());
+                            results.Add(s);
+                        }
                     }
                 }
+                
             }catch(Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine(ex);
